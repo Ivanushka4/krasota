@@ -1,0 +1,14 @@
+
+.youtube-icon {
+    width: 64px;
+    height: 64px;
+    fill: black;
+}
+
+.icon-youtube{
+    transition: all .5s ease;
+    }
+    
+    .icon-youtube:hover {
+     fill:red;
+    }
