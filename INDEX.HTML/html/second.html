@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tattu</title>
+    <style>
+        body {
+            background: #c7b39b url(../img/uyit-1-1280x720.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        p {
+            text-align: left;
+        }
+
+        .serv-items {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .serv-items li {
+            background-color: rgba(255, 255, 255, 0.1);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex; /* Используем Flexbox */
+            justify-content: space-between; /* Распределяем пространство между элементами */
+            align-items: center; /* Выравниваем элементы по центру по вертикали */
+            transition: background-color 0.3s ease;
+        }
+
+        .serv-items li:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .cursor {
+            text-decoration: none;
+            color: #fff;
+            flex-grow: 1; /* Позволяет ссылке занимать всё доступное пространство */
+        }
+
+        .cursor:hover {
+            color: wheat; /* Цвет при наведении */
+        }
+
+        .s-price,
+        .s-time {
+            font-weight: bold; /* Жирный шрифт для цены и времени */
+            text-align: center; /* Центрируем текст */
+        }
+
+        a {
+            position: relative;
+            color: white; /* Цвет ссылок */
+            text-decoration: none; /* Убираем подчеркивание */
+        }
+
+        a:hover {
+            text-decoration: underline; /* Подчеркивание при наведении */
+        }
+    </style>
+</head>
+
+<body>
+
+    <p> <button class="back-button"><a href="../index.html" target="_blank">Назад</a></button></p>
+
+    
+    
+    <div>
+        <h2 id="service-item-6637592">Татуировки</h2>
+        <ul class="serv-items">
+            <li><a class="cursor"  href="запись.html">Mini tattu (размер до 10 см) <span class="s-price">1000-3500₽</span> <span class="s-time">60₽ мин.</span></a></li>
+            <li><a class="cursor"  href="запись.html">Medium tattu (размер 15-25 см)<span class="s-price">3500-10000₽</span> <span class="s-time">120₽ мин</span></a></li>
+            <li><a class="cursor"  href="запись.html">Big tattu (размер от 25 см) <span class="s-price"> От 10000₽</span> <span class="s-time">180₽ мин.</span></a></li>
+            <li><a class="cursor"  href="запись.html">Коррекция Mini tattu <span class="s-price"> От 1000₽</span> <span class="s-time">60₽ мин.</span></a></li>
+            <li><a class="cursor"  href="запись.html">Коррекция Medium tattu <span class="s-price">От 3000₽</span> <span class="s-time">110₽ мин.</span></a></li>
+            <li><a class="cursor"  href="запись.html">Коррекция Big tattu<span class="s-price"> От 5000₽ </span> <span class="s-time">150₽ мин.</span></a></li>
+        </ul>
+    </div>
+</body>
+
+</html>

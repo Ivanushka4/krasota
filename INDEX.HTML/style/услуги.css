@@ -1,0 +1,57 @@
+.услуги {
+    background-color: var(--bg-main-grey);
+    text-align: center;
+    color: var(--color-main-black);
+    padding: 60px 30px 10px;
+
+    text-align: center;
+}
+
+.услуги-title {
+    font-size: 34px;
+    font-weight: 700;
+    margin: 0 0 42px;
+    text-align: center
+}
+
+.услуги-subtitle-ru,
+.услуги-subtitle-en {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 auto 15px;
+
+}
+
+
+.услуги-description-ru,
+.услуги-description-en {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 auto 15px;
+    text-align: justify;
+    max-width: 780px;
+}
+
+.услуги-subtitle-en {
+    margin: 15px auto 15px;
+}
+
+.услуги-description-en {
+    margin: 0 auto;
+}
+
+.uslugi-img{
+    height: 150px;
+    width: 150px;
+}
+
+@media(max-width: 480px) {
+}
+.uslugi-img{
+    width: 150px;
+    max-width: 300px;
+    height: 150px;
+    object-fit: cover;
+    margin: 30px 20px 30px;
+    border: 1px solid black;
+}

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Запись в салон красоты</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 20px;
+}
+h1 {
+  text-align: center;
+}
+form {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+label {
+  display: block;
+  margin-top: 10px;
+}
+input, select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+}
+button {
+  margin-top: 15px;
+  padding: 10px;
+  width: 100%;
+}
+#results {
+  max-width:600px;
+  margin:auto;
+}
+.result-item {
+  background-color:#e0e0e0; 
+  padding:10px; 
+  margin-top:10px; 
+  border-radius:5px; 
+  text-align:center; /* Центрируем текст внутри блока */
+}
+.end{
+    text-align: center;
+}
+</style>
+</head>
+<body>
+<a href="../index.html">назад</a>
+<h1>Запись в салон красоты</h1>
+
+<form id="appointmentForm">
+<label for="name">Имя:</label>
+<input type="text" id="name" name="name" required />
+
+<label for="date">Дата:</label>
+<input type="date" id="date" name="date" required />
+
+<label for="time">Время:</label>
+<select id="time" name="time" required>
+<option value="">Выберите время</option>
+<option value="09">09:00</option>
+<option value="10">10:00</option>
+<option value="11">11:00</option>
+<option value="12">12:00</option>
+<option value="13">13:00</option>
+<option value="14">14:00</option>
+<option value="15">15:00</option>
+<option value="16">16:00</option>
+<option value="17">17:00</option>
+</select>
+
+<label for="service">Услуга:</label>
+<select id="service" name="service" required>
+<option value="">Выберите услугу</option>
+<option value= "стрижка">Стрижка</option>
+<option value= "окрашивание">Окрашивание</option>
+<option value= "педикюр">Педикюр</option>
+</select>
+
+<button type='submit'>Записаться</button>
+</form>
+
+<h2 class="end">Записи на приём:</h2>
+
+<div id='results'></div>
+
+<script>
+// Получение элементов
+const form = document.getElementById('appointmentForm');
+const resultsDiv = document.getElementById('results');
+const dateInput = document.getElementById('date');
+const timeSelect = document.getElementById('time');
+
+// Загрузка и отображение результатов
+function loadResults() {
+    resultsDiv.innerHTML = '';
+    const results = JSON.parse(localStorage.getItem('results')) || [];
+    // Удаляем прошедшие записи
+    const now = new Date();
+    const filteredResults = results.filter(item => {
+        const recordDateStr = item.date + 'T' + item.time + ':00';
+        const recordDate = new Date(recordDateStr);
+        return recordDate >= now;
+    });
+    localStorage.setItem('results', JSON.stringify(filteredResults));
+    // Отображаем оставшиеся записи
+    filteredResults.forEach(item => {
+        const div = document.createElement('div');
+        div.className='result-item';
+        div.innerHTML= `
+            <strong>Имя:</strong> ${item.name}<br/>
+            <strong>Дата:</strong> ${item.date}<br/>
+            <strong>Время:</strong> ${item.time}:00<br/>
+            <strong>Услуга:</strong> ${item.service}
+        `;
+        resultsDiv.appendChild(div);
+    });
+}
+
+// Обновление доступных часов при выборе даты
+function updateAvailableTimes() {
+    const selectedDate = dateInput.value;
+    if (!selectedDate) return;
+
+    const results = JSON.parse(localStorage.getItem('results')) || [];
+    // Находим все занятые часы для выбранной даты
+    const occupiedTimes = results
+        .filter(item => item.date === selectedDate)
+        .map(item => item.time);
+
+    // Обновляем список времени
+    for (let option of timeSelect.options) {
+        if (option.value === "") continue; // пропускаем пустой выбор
+        if (occupiedTimes.includes(option.value)) {
+            option.disabled = true; // блокируем занятые часы
+            // Можно скрывать или оставить видимыми, тут скрываем:
+            option.style.display='none';
+        } else {
+            option.disabled=false;
+            option.style.display='block';
+        }
+    }
+
+    // Если выбранное время теперь недоступно — сбрасываем его
+    if (timeSelect.value && occupiedTimes.includes(timeSelect.value)) {
+        timeSelect.value='';
+    }
+}
+
+// Обработчик изменения даты
+dateInput.addEventListener('change', updateAvailableTimes);
+
+// Валидация формы и сохранение результата
+function validateForm() {
+    const name = document.getElementById('name').value.trim();
+    const dateVal = document.getElementById('date').value.trim();
+    const timeVal = document.getElementById('time').value.trim();
+    const serviceVal= document.getElementById('service').value.trim();
+
+    if (!name || !dateVal || !timeVal || !serviceVal) {
+        alert("Пожалуйста, заполните все поля");
+        return false;
+    }
+
+    // Проверка на занятость выбранного времени (дополнительно)
+    const results= JSON.parse(localStorage.getItem('results'))||[];
+    const isOccupied= results.some(item => item.date===dateVal && item.time===timeVal);
+    if (isOccupied) {
+        alert("Это время уже занято. Пожалуйста, выберите другое.");
+        updateAvailableTimes(); // обновим список часов
+        return false;
+    }
+
+    return true;    
+}
+
+function saveResult() {
+	const name=document.getElementById("name").value.trim();
+	const date=document.getElementById("date").value.trim();
+	const time=document.getElementById("time").value.trim();
+	const service=document.getElementById("service").value.trim();
+
+	const result={name,date,time,service};
+	const results=JSON.parse(localStorage.getItem("results"))||[];
+	results.push(result);
+	localStorage.setItem("results",JSON.stringify(results));
+	loadResults();
+}
+
+// Обработка отправки формы
+form.addEventListener("submit", function(e){
+	e.preventDefault();
+
+	if(validateForm()){
+		saveResult();
+		form.reset();
+		updateAvailableTimes(); // обновим список часов после добавления записи
+		alert("Запись успешно добавлена!");
+	}
+});
+
+// Инициализация при загрузке страницы
+window.onload=function(){
+	loadResults();
+	updateAvailableTimes(); // обновляем список часов при загрузке
+};
+</script>
+
+</body>
+</html>
